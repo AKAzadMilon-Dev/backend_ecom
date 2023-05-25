@@ -1,10 +1,12 @@
 const express = require('express')
 const emailValidation = require('../../helper/emailValidation.js')
 const passwordValidation = require('../../helper/passwordValidation.js')
+const User = require('../../models/userModels.js')
 const _ = express.Router()
+const bcrypt = require('bcrypt')
 
-_.post('/registration', (req, res)=>{
-    const {fullname, email, password} = req.body
+_.post('/registration', async (req, res)=>{
+    const {fullname, email, password, avater, facebookId, googleId} = req.body
     
     if(!fullname){
         return res.send({error: "Enter Your Fullname!"})
@@ -17,7 +19,29 @@ _.post('/registration', (req, res)=>{
     }else if(!passwordValidation(password)){
         return res.send({error: "Password at least one number and one Capital letter exists in the password and minimum length of 8 characters!"})
     }else{
-        return res.send({success: "Registration Successfully!"})
+
+        let duplicateEmail = await User.find({email: email})
+
+        if(duplicateEmail.length > 0){
+            return res.send({error: "Your Email already exists. Try another email!"})
+        }
+
+        bcrypt.hash(password, 10, function(err, hash) {
+            const user = new User({
+                fullname,
+                email,
+                password: hash,
+                avater,
+                googleId,
+                facebookId
+            })
+            user.save()
+            res.send({
+                success: "Registration Successfully!",
+                fullname: user.fullname,
+                email: user.email
+            })
+        });
     }
 })
 
