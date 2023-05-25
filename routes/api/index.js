@@ -3,6 +3,6 @@ const _ = express.Router()
 const authRoutes = require('./auth')
 
 
-_.use(auth, authRoutes)
+_.use("/auth", authRoutes)
 
 module.exports = _
