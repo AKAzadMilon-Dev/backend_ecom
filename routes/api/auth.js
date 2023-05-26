@@ -6,6 +6,7 @@ const _ = express.Router()
 const bcrypt = require('bcrypt')
 const otpTemplete = require('../../helper/otpTemplete.js')
 const sendEmail = require('../../helper/sendEmail.js')
+const aleaRNGFactory = require("number-generator/lib/aleaRNGFactory");
 
 _.post('/registration', async (req, res)=>{
     const {fullname, email, password, avater, facebookId, googleId} = req.body
@@ -39,7 +40,10 @@ _.post('/registration', async (req, res)=>{
             })
 
             user.save()
-            sendEmail(email, "1050", otpTemplete)
+
+            const generator2 = aleaRNGFactory(Date.now());
+            const randomNumber = generator2.uInt32().toString().substring(0, 4)
+            sendEmail(email, randomNumber, otpTemplete)
 
             res.send({
                 success: "Registration Successfully! plese check your email!",
