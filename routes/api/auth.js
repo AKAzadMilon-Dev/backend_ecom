@@ -4,6 +4,8 @@ const passwordValidation = require('../../helper/passwordValidation.js')
 const User = require('../../models/userModels.js')
 const _ = express.Router()
 const bcrypt = require('bcrypt')
+const otpTemplete = require('../../helper/otpTemplete.js')
+const sendEmail = require('../../helper/sendEmail.js')
 
 _.post('/registration', async (req, res)=>{
     const {fullname, email, password, avater, facebookId, googleId} = req.body
@@ -35,9 +37,12 @@ _.post('/registration', async (req, res)=>{
                 googleId,
                 facebookId
             })
+
             user.save()
+            sendEmail(email, "1050", otpTemplete)
+
             res.send({
-                success: "Registration Successfully!",
+                success: "Registration Successfully! plese check your email!",
                 fullname: user.fullname,
                 email: user.email
             })
