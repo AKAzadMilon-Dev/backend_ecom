@@ -47,6 +47,9 @@ const userSchema = new Schema({
     resetPasswordExpires:{
         type: Date
     },
+    randomOtp:{
+        type: String
+    },
     updated:{
         type: Date
     },
