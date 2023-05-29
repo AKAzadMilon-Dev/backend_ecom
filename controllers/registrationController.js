@@ -46,10 +46,10 @@ const registrationController = async (req, res)=>{
 
             sendEmail(email, randomNumber, otpTemplete);
 
-            setTimeout(async function (){
-                console.log("OTP Deleted")
-                const randomOtpStore = await User.findOneAndUpdate({email}, {$unset: {randomOtp: ""}}, {new: true});
-            }, 60000)
+            // setTimeout(async function (){
+            //     console.log("OTP Deleted")
+            //     const randomOtpStore = await User.findOneAndUpdate({email}, {$unset: {randomOtp: ""}}, {new: true});
+            // }, 60000)
 
             res.send({
                 success: "Registration Successfully! plese check your email!",
