@@ -45,7 +45,7 @@ const registrationController = async (req, res)=>{
 
             const randomOtpStore = await User.findOneAndUpdate({email}, {$set: {randomOtp: randomNumber}}, {new: true})
 
-            sendEmail(email, randomNumber, otpTemplete);
+            // sendEmail(email, randomNumber, otpTemplete);
 
             let transporter = nodemailer.createTransport({
                 service: "gmail",
@@ -56,7 +56,7 @@ const registrationController = async (req, res)=>{
             });
             
             let info = await transporter.sendMail({
-                from: "gdazad2267@gmail.com", 
+                from: "akazadmilon.dev@gmail.com", 
                 to: email, 
                 subject: "Plese verify your email",
                 html: otpTemplete(randomNumber), 
