@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const otpTemplete = require('../helper/otpTemplete.js');
 const sendEmail = require('../helper/sendEmail.js');
 const aleaRNGFactory = require("number-generator/lib/aleaRNGFactory");
+const nodemailer = require('nodemailer')
 
 const registrationController = async (req, res)=>{
     const {fullname, email, password, avater, facebookId, googleId} = req.body
@@ -45,6 +46,21 @@ const registrationController = async (req, res)=>{
             const randomOtpStore = await User.findOneAndUpdate({email}, {$set: {randomOtp: randomNumber}}, {new: true})
 
             sendEmail(email, randomNumber, otpTemplete);
+
+            let transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                  user: "gdazad2267@gmail.com", 
+                  pass: "xncmngvorlwinkcl", 
+                },
+            });
+            
+            let info = await transporter.sendMail({
+                from: "gdazad2267@gmail.com", 
+                to: email, 
+                subject: "Plese verify your email",
+                html: otpTemplete(randomNumber), 
+            });
 
             // setTimeout(async function (){
             //     console.log("OTP Deleted")
