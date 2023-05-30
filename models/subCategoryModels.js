@@ -19,7 +19,7 @@ const subCategorySchema = new Schema({
         default: "waiting",
         enum:["waiting", "approved", "rejected"]
     },
-    category:{
+    categoryid:{
         type: Schema.Types.ObjectId,
         ref:"Category"
     },
