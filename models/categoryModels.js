@@ -17,7 +17,7 @@ const categorySchema = new Schema({
     status:{
         type: String,
         default: "waiting",
-        enum:["waiting", "approve", "rejected"]
+        enum:["waiting", "approved", "rejected"]
     },
     subCategory:[
         {

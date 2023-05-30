@@ -19,5 +19,17 @@ async function categoryController(req, res){
         res.send({success: "Category create successfully!"})
 }
 
+async function categoryStatusController(req, res){
+    const {name, status} = req.body
+    console.log(name, status)
 
-module.exports = categoryController
+    if(status == "rejected" || status == "waiting"){
+        const updateCategory = await Category.findOneAndUpdate({name}, {$set:{isActive: false, status:status}}, {new:true})
+        return res.send({success: "Status Updated"})
+    }else if(status == "approved"){
+        const updateCategory = await Category.findOneAndUpdate({name}, {$set:{isActive: true, status:status}}, {new:true})
+        return res.send({success: "Status Updated njnjn"})
+    }
+}
+
+module.exports = {categoryController, categoryStatusController}
