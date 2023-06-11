@@ -1,4 +1,5 @@
 const SubCategory = require('../models/subCategoryModels.js')
+const Category = require('../models/categoryModels.js')
 
 async function subCategoryController(req, res){
  const {name, description, categoryid} = req.body
@@ -17,6 +18,10 @@ async function subCategoryController(req, res){
 
         subcategory.save()
 
+        console.log(subcategory._id)
+
+        await Category.findOneAndUpdate({_id: subcategory.categoryid }, {$push:{subcategory: subcategory._id}}, {new:true})
+
         res.send({success: "Sub-Category create successfully!"})
 }
 
@@ -34,4 +39,10 @@ async function subCategoryStatusController(req, res){
 }
 
 
-module.exports = {subCategoryController, subCategoryStatusController}
+async function getAllSubCategoryController(req, res){
+    const data = await SubCategory.find({}).populate('categoryid')
+    res.send(data)
+}
+
+
+module.exports = {subCategoryController, subCategoryStatusController, getAllSubCategoryController}
