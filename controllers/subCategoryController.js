@@ -20,7 +20,7 @@ async function subCategoryController(req, res){
 
         console.log(subcategory._id)
 
-        await Category.findOneAndUpdate({_id: subcategory.categoryid }, {$push:{subcategory: subcategory._id}}, {new:true})
+        await Category.findOneAndUpdate({_id: subcategory.categoryid }, {$push:{subCategory: subcategory._id}}, {new:true})
 
         res.send({success: "Sub-Category create successfully!"})
 }
@@ -30,11 +30,11 @@ async function subCategoryStatusController(req, res){
     console.log(name, status)
 
     if(status == "rejected" || status == "waiting"){
-        const updateSubCategory = await SubCategory.findOneAndUpdate({name}, {$set:{isActive: false, status:status}}, {new:true})
+        await SubCategory.findOneAndUpdate({name}, {$set:{isActive: false, status:status}}, {new:true})
         return res.send({success: "Status Updated"})
     }else if(status == "approved"){
-        const updateSubCategory = await SubCategory.findOneAndUpdate({name}, {$set:{isActive: true, status:status}}, {new:true})
-        return res.send({success: "Status Updated njnjn"})
+        await SubCategory.findOneAndUpdate({name}, {$set:{isActive: true, status:status}}, {new:true})
+        return res.send({success: "Status Updated"})
     }
 }
 

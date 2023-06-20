@@ -24,10 +24,10 @@ async function categoryStatusController(req, res){
     console.log(name, status)
 
     if(status == "rejected" || status == "waiting"){
-        const updateCategory = await Category.findOneAndUpdate({name}, {$set:{isActive: false, status:status}}, {new:true})
+        await Category.findOneAndUpdate({name}, {$set:{isActive: false, status:status}}, {new:true})
         return res.send({success: "Status Updated"})
     }else if(status == "approved"){
-        const updateCategory = await Category.findOneAndUpdate({name}, {$set:{isActive: true, status:status}}, {new:true})
+        await Category.findOneAndUpdate({name}, {$set:{isActive: true, status:status}}, {new:true})
         return res.send({success: "Status Updated njnjn"})
     }
 }
