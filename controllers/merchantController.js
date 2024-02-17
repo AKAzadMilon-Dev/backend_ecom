@@ -8,12 +8,12 @@ async function becomeMerchantController(req, res){
     let duplicateStorename = await Store.find({storename});
 
         if(duplicateOfficialEmail.length > 0){
-            return res.send({error: " Email already exists. Try another Email!"});
+            return res.send({error: "Email already exists. Try another Email!"});
         };
         if(duplicateStorename.length > 0){
-            return res.send({error: " Store already exists. Try another Store!"});
+            return res.send({error: "Store already exists. Try another Store!"});
         };
-
+        
     const store = new Store({
         storename,
         officialemail,
@@ -40,6 +40,7 @@ async function merchantStatusController(req, res){
         await Store.findOneAndUpdate({storename}, {$set:{isActive: true, status:status}}, {new:true})
         return res.send({success: "Status Updated"})
     }
+    
 }
 
 
